@@ -1,0 +1,123 @@
+#include<iostream>
+#include<string>
+using namespace std;
+class Product
+{
+public:
+	int productID;
+	string productName;
+	float price;
+	Product()
+	{
+		productID = 0;
+		productName = "";
+		price = 0.0;
+	}
+	void display()
+	{
+		cout<<"Product ID: "<<productID<<", Product Name: "<<productName<<", Price: "<<price<<endl;
+	}
+
+};
+
+class ShoppingCart
+{
+	Product* product;
+	int size;
+	int count;
+public:
+	ShoppingCart(int s)
+	{
+		count = 0;
+		size = s;
+		product = new Product[size];
+	}
+
+	void addProduct(Product p)
+	{
+		if (count < size)
+		{
+			product[count] = p;
+			count++;
+		}
+		else
+		{
+			cout << "Cart is full" << endl;
+		}
+	}
+
+	void displayAllProducts()
+	{
+		cout<<"Products in the cart are: "<<endl;
+		for (int i = 0; i < count; i++)
+		{
+			product[i].display();
+		}
+	}
+
+	double calculateTotalPrice()
+	{
+		double total = 0.0;
+		for (int i = 0; i < count; i++)
+		{
+			total += product[i].price;
+		}
+		return total;
+	}
+};
+
+class User
+{
+public:
+	int userID;
+	ShoppingCart* shoppingCart;
+	User()
+	{
+		userID = 0;
+		shoppingCart = NULL;
+	}
+	void display()
+	{
+		cout<<"User ID: "<<userID<<endl;
+		if (shoppingCart)
+		{
+			cout<<"User has a shopping cart"<<endl;
+		}
+		else
+		{
+			cout<<"User does not have a shopping cart"<<endl;
+		}
+	}
+};
+
+int main()
+{
+		Product p1;
+	p1.productID = 1;
+	p1.productName = "Laptop";
+	p1.price = 100000.0;
+
+	Product p2;
+	p2.productID = 2;
+	p2.productName = "Mobile";
+	p2.price = 50000.0;
+
+	Product p3;
+	p3.productID = 3;
+	p3.productName = "Tablet";
+	p3.price = 30000.0;
+
+	ShoppingCart cart(2);
+	cart.addProduct(p1);
+	cart.addProduct(p2);
+	cart.addProduct(p3);
+	cart.displayAllProducts();
+	cout<<"Total Price: "<<cart.calculateTotalPrice()<<endl;
+
+	User u1;
+	u1.userID = 1;
+	u1.shoppingCart = &cart;
+	u1.display();
+
+	return 0;
+}
